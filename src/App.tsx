@@ -8,8 +8,6 @@ import Chat, { Bubble, useMessages } from "@chatui/core";
 // 引入样式
 import "@chatui/core/dist/index.css";
 import "./App.css";
-<<<<<<< HEAD
-=======
 import { styled } from "@mui/material/styles";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -26,14 +24,14 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
->>>>>>> 0512085970e523e5823091be1b2c5d9a59418ecc
+import Input from "@mui/material/Input";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
 
 function App() {
   const ws = useRef<WebSocket | null>(null);
-<<<<<<< HEAD
-=======
   const { messages, appendMsg, setTyping } = useMessages([]);
->>>>>>> 0512085970e523e5823091be1b2c5d9a59418ecc
   const [msg, setMsg] = useState("");
 
   let timer: any = null;
@@ -66,17 +64,17 @@ function App() {
       clearTimeout(timer);
       timer = null;
       const data = JSON.parse(res.data);
-      console.log
+      console.log;
       if (data.code === 200) {
         msgs += data.data;
       }
       // console.log(msgs);
       timer = setTimeout(() => {
-        if(switchFlag) {
-            appendMsg({
-              type: "text",
-              content: { text: msgs },
-            });
+        if (switchFlag) {
+          appendMsg({
+            type: "text",
+            content: { text: msgs },
+          });
         } else {
           appendMsg({
             type: "image",
@@ -101,7 +99,7 @@ function App() {
         model: switchFlag ? 1 : 2,
         msg: val,
       };
-      console.log(params,'hhhh')
+      console.log(params, "hhhh");
       ws.current?.send(JSON.stringify(params));
       setTyping(true);
     }
@@ -114,51 +112,96 @@ function App() {
   };
 
   //switch
-  const [switchFlag, setSwitchFlag] = useState(true)
+  const [switchFlag, setSwitchFlag] = useState(true);
   const handleSwitch = (event, val: boolean) => {
-    console.log(val)
-    setSwitchFlag(val)
+    console.log(val);
+    setSwitchFlag(val);
+  };
+
+  //input
+  const jsonItem = { key: "", value: "" };
+  const [jsonList, setJsonList] = useState<{ key: string; value: string }[]>([
+    { key: "", value: "" },
+  ]);
+  const [json, setJson] = useState({});
+  const ariaLabel = { "aria-label": "description" };
+  const handleAdd = () => {
+    const newJsonList = jsonList;
+    newJsonList.push(jsonItem);
+    console.log(newJsonList);
+    setJsonList([...newJsonList]);
+  };
+  const handleInput = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number,
+    type?: string
+  ) => {
+    const val = event.target.value;
+    const newJsonList = jsonList;
+    if (type === "value") {
+      newJsonList[index].value = val;
+    } else {
+      newJsonList[index].key = val;
+    }
+    setJsonList([...newJsonList]);
+  };
+
+  const handleCreate = () => {
+    const newL = jsonList;
+    const json: any = {};
+    newL.forEach((item) => {
+      json[item.key] = item.value;
+    });
+    setJson({ ...json });
+  };
+
+  const handleReset = () => {
+    setJsonList([{ key: "", value: "" }]);
+    setJson({});
   };
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
     height: 16,
     padding: 0,
-    display: 'flex',
-    '&:active': {
-      '& .MuiSwitch-thumb': {
+    display: "flex",
+    "&:active": {
+      "& .MuiSwitch-thumb": {
         width: 15,
       },
-      '& .MuiSwitch-switchBase.Mui-checked': {
-        transform: 'translateX(9px)',
+      "& .MuiSwitch-switchBase.Mui-checked": {
+        transform: "translateX(9px)",
       },
     },
-    '& .MuiSwitch-switchBase': {
+    "& .MuiSwitch-switchBase": {
       padding: 2,
-      '&.Mui-checked': {
-        transform: 'translateX(12px)',
-        color: '#fff',
-        '& + .MuiSwitch-track': {
+      "&.Mui-checked": {
+        transform: "translateX(12px)",
+        color: "#fff",
+        "& + .MuiSwitch-track": {
           opacity: 1,
-          backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',
+          backgroundColor:
+            theme.palette.mode === "dark" ? "#177ddc" : "#1890ff",
         },
       },
     },
-    '& .MuiSwitch-thumb': {
-      boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
+    "& .MuiSwitch-thumb": {
+      boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
       width: 12,
       height: 12,
       borderRadius: 6,
-      transition: theme.transitions.create(['width'], {
+      transition: theme.transitions.create(["width"], {
         duration: 200,
       }),
     },
-    '& .MuiSwitch-track': {
+    "& .MuiSwitch-track": {
       borderRadius: 16 / 2,
       opacity: 1,
       backgroundColor:
-        theme.palette.mode === 'dark' ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.25)',
-      boxSizing: 'border-box',
+        theme.palette.mode === "dark"
+          ? "rgba(255,255,255,.35)"
+          : "rgba(0,0,0,.25)",
+      boxSizing: "border-box",
     },
   }));
   return (
@@ -188,6 +231,62 @@ function App() {
             renderMessageContent={renderMessageContent}
             onSend={handleSend}
           />
+        ) : null}
+        {value === "profile" ? (
+          <div>
+            <div style={{ display: "flex" }}>
+              <Button variant="contained" onClick={handleAdd}>
+                添加
+              </Button>
+              <Button variant="outlined" onClick={handleCreate}>
+                生成JSON
+              </Button>
+              <Button variant="contained" onClick={handleReset}>
+                重置
+              </Button>
+            </div>
+            {jsonList.map((item, index) => {
+              return (
+                <Box
+                  key={index}
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1 },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <Input
+                    placeholder="key"
+                    inputProps={ariaLabel}
+                    onBlur={(
+                      event: React.ChangeEvent<
+                        HTMLInputElement | HTMLTextAreaElement
+                      >
+                    ) => {
+                      handleInput(event, index);
+                    }}
+                  />
+                  <Input
+                    placeholder="value"
+                    inputProps={ariaLabel}
+                    onBlur={(
+                      event: React.ChangeEvent<
+                        HTMLInputElement | HTMLTextAreaElement
+                      >
+                    ) => {
+                      handleInput(event, index, "value");
+                    }}
+                  />
+                </Box>
+              );
+            })}
+            <Card sx={{ minWidth: 275 }}>
+              <CardContent>
+                <span>{JSON.stringify(json)}</span>
+              </CardContent>
+            </Card>
+          </div>
         ) : null}
       </div>
       <div className="nav_wrapper">
