@@ -8,19 +8,9 @@ import Chat, { Bubble, useMessages } from "@chatui/core";
 import "@chatui/core/dist/index.css";
 import "./App.css";
 
-// const ws = new WebSocket(
-//   "ws://gpt.imarin.cn:9999/api/websocket/Bearer chatgpt-12893127ghjasflgas89124ghwqdf7812dh2178ed"
-// );
-
-// ws.addEventListener("open", () => {
-//   console.log(11);
-// });
-
 function App() {
   const { messages, appendMsg, setTyping } = useMessages([]);
   const ws = useRef<WebSocket | null>(null);
-
-  // const [timer, setTimer] = useState(null);
   const [msg, setMsg] = useState("");
   let timer: any = null;
   let msgs = "";
