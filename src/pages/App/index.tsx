@@ -2,12 +2,6 @@ import * as React from "react";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 //mui
 import { styled } from "@mui/material/styles";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import HomeIcon from "@mui/icons-material/Home";
-import ChatBubbleSharpIcon from "@mui/icons-material/ChatBubbleSharp";
-import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
-import PersonSharpIcon from "@mui/icons-material/PersonSharp";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -47,36 +41,37 @@ export default function ChatApp() {
     }
   }
 
-  useLayoutEffect(() => {
-    ws.current = new WebSocket(
-      "ws://gpt.imarin.cn:9999/api/websocket/Bearer chatgpt-12893127ghjasflgas89124ghwqdf7812dh2178ed"
-    );
-    ws.current.onmessage = (res) => {
-      clearTimeout(timer);
-      timer = null;
-      const data = JSON.parse(res.data);
-      console.log;
-      if (data.code === 200) {
-        msgs += data.data;
-      }
-      // console.log(msgs);
-      timer = setTimeout(() => {
-        if (switchFlag) {
-          appendMsg({
-            type: "text",
-            content: { text: msgs },
-          });
-        } else {
-          appendMsg({
-            type: "image",
-            content: { picUrl: msgs },
-          });
-        }
-        msgs = "";
-        timer = null;
-      }, 500);
-    };
-  });
+  // useLayoutEffect(() => {
+  //   ws.current = new WebSocket(
+  //     "ws://gpt.imarin.cn:9999/api/websocket/Bearer chatgpt-12893127ghjasflgas89124ghwqdf7812dh2178ed"
+  //   );
+  //   ws.current.onmessage = (res) => {
+  //     console.log(res);
+  //     clearTimeout(timer);
+  //     timer = null;
+  //     const data = JSON.parse(res.data);
+  //     console.log;
+  //     if (data.code === 200) {
+  //       msgs += data.data;
+  //     }
+  //     // console.log(msgs);
+  //     timer = setTimeout(() => {
+  //       if (switchFlag) {
+  //         appendMsg({
+  //           type: "text",
+  //           content: { text: msgs },
+  //         });
+  //       } else {
+  //         appendMsg({
+  //           type: "image",
+  //           content: { picUrl: msgs },
+  //         });
+  //       }
+  //       msgs = "";
+  //       timer = null;
+  //     }, 500);
+  //   };
+  // });
 
   function handleSend(type: string, val: string) {
     console.log(val);

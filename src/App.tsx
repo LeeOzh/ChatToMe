@@ -11,6 +11,7 @@ import ChatApp from "./pages/App";
 import CreateJson from "./pages/Json";
 
 import { useSlider } from "./hooks/useSlider";
+import Login from "./pages/Login";
 
 function getSize() {
   const currentW = document.documentElement.clientWidth;
@@ -35,6 +36,7 @@ function App() {
 
   return (
     <div className="app_wrapper">
+      <Login />
       <SliderMenu
         selectedIndex={selectedIndex}
         handleListItemClick={handleListItemClick}

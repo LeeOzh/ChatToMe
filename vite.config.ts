@@ -7,6 +7,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: "0.0.0.0",
+    proxy: {
+      "/api": {
+        target: "htpp://gpt.imarin.cn:9999",
+        changeOrigin: true,
+      },
+    },
   },
   resolve: {
     alias: {
