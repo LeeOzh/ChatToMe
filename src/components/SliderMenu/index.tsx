@@ -11,6 +11,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
+import { NavLink } from "react-router-dom";
 
 interface Props {
   selectedIndex: number;
@@ -18,7 +19,7 @@ interface Props {
   setSelectedIndex?: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const tabMenuList: string[] = ["ChatApp", "JSON"];
+const tabMenuList: string[] = ["chat", "json"];
 
 export default function SliderMenu(props: Props) {
   const { selectedIndex, handleListItemClick } = props;
@@ -45,15 +46,17 @@ export default function SliderMenu(props: Props) {
         {tabMenuList.map((item, index) => {
           return (
             <React.Fragment key={item}>
-              <ListItemButton
-                selected={selectedIndex === index}
-                onClick={(event) => handleListItemClick(event, index)}
-              >
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary={item} />
-              </ListItemButton>
+              <NavLink to={`${item}`}>
+                <ListItemButton
+                  selected={selectedIndex === index}
+                  onClick={(event) => handleListItemClick(event, index)}
+                >
+                  <ListItemIcon>
+                    <InboxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={item} />
+                </ListItemButton>
+              </NavLink>
               <Divider />
             </React.Fragment>
           );

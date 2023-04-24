@@ -12,6 +12,8 @@ import CreateJson from "./pages/Json";
 
 import { useSlider } from "./hooks/useSlider";
 import Login from "./pages/Login";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { getRoutes, routers } from "./routes/routes";
 
 function getSize() {
   const currentW = document.documentElement.clientWidth;
@@ -34,9 +36,11 @@ function App() {
     });
   });
 
+  const routes = getRoutes(routers);
+  console.log(routes);
+
   return (
     <div className="app_wrapper">
-      <Login />
       <SliderMenu
         selectedIndex={selectedIndex}
         handleListItemClick={handleListItemClick}
@@ -48,8 +52,13 @@ function App() {
           height: "100%",
         }}
       >
-        {selectedIndex === 0 ? <ChatApp /> : void 0}
-        {selectedIndex === 1 ? <CreateJson /> : void 0}
+        <Routes>
+          <Route path="/" element={<Navigate to="/chat" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/chat" element={<ChatApp />} />
+          <Route path="/json" element={<CreateJson />} />
+        </Routes>
+        <Outlet />
       </Container>
     </div>
   );
