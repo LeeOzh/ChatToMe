@@ -58,7 +58,7 @@ function App() {
 
   useLayoutEffect(() => {
     ws.current = new WebSocket(
-      "ws://gpt.imarin.cn:9999/api/websocket/Bearer chatgpt-12893127ghjasflgas89124ghwqdf7812dh2178ed"
+      "ws://gpt.imarin.cn:9999/api/websocket/5c9b22cb-b91b-447a-8f3f-6ecc5dbbe81a"
     );
     ws.current.onmessage = (res) => {
       clearTimeout(timer);
